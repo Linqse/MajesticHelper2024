@@ -1,0 +1,136 @@
+@inherits WebUIComponent;
+@using PoeShared.Blazor;
+@using PoeShared.Blazor.Scaffolding
+@using AntDesign
+
+
+<HeadContent>
+    <link href="_content/AntDesign/css/ant-design-blazor.css" rel="stylesheet"/>
+    <link href="_content/EyeAuras.Blazor.Shared/assets/css/main-ant-blazor.css" rel="stylesheet"/>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+</HeadContent>
+
+<div class="card ">
+    <div class="card-header text-center">
+        <div class="menu-wrapper">
+            <menu class="items-wrapper">
+                @if (Overlay.IsLocked)
+                {
+                    <a href="#" class="menu-item fa fa-unlock gray-link" @onclick="LockUnlock"></a>
+                }
+                @if (!Overlay.IsLocked)
+                {
+                    <a href="#" class=" fa fa-lock gray-link" @onclick="LockUnlock"></a>
+                }
+                <a href="#" class="menu-item fa fa-close gray-link" @onclick="OverClose"></a>
+            </menu>
+        </div>
+        Majestic GTA5
+    </div>
+    <div class="card-body">
+        
+        <div class="buttons-grid-container">
+            <div class="button-with-icon">
+                <span>🍊</span>
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Orange)})">
+                    @if (Orange)
+                    {
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Orange = false)">Выключить мандарины</ReactiveButton>
+                    }
+                    else
+                    {
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Orange = true)">Включить мандарины</ReactiveButton>
+                    }
+                </ReactiveSection>
+            </div>
+            
+            <div class="button-with-icon">
+                <span>️⛏️</span>
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Orange)})">
+                    @if (Orange)
+                    {
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Orange = false)">Stop orange</ReactiveButton>
+                    }
+                    else
+                    {
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Orange = true)">Start orange</ReactiveButton>
+                    }
+                </ReactiveSection>
+            </div>
+        </div>
+
+        
+        
+            
+
+
+        <button type="button" style="margin-top: 10px;" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#Settings">
+            Настройки
+        </button>
+            
+
+    </div>   
+        <div class="card-footer text-body-secondary text-center">
+            <p>Created by Linqse 😈</p>
+        </div>
+            
+        <ReactiveNotificationsContainer Notifications="@Notifications" ConfirmRequests="@ConfirmRequests"/>
+    
+</div>
+
+
+
+
+<!-- The Modal -->
+<div class="modal" id="Settings">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Settings</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+           
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Уведомления телеграм</span>
+                    <div class="input-group-text">
+                        <input type="checkbox" @bind-value="_config.TelegramAlert" @bind-value:event="oninput" @onchange="SaveConfig">
+                    </div>
+                    <input type="text" class="form-control" placeholder="@@username" @bind-value="_config.TelegramUsername" @bind-value:event="oninput" @onchange="SaveConfig">
+                </div> 
+                
+                <label for="repairSelector">Скорость кратная 50 : @_config.CastSpeed</label>
+                <input id="repairSelector" type="range" class="form-range mx-2" min="0" max="10" @bind-value="_config.CastSpeed" @bind-value:event="oninput" @onchange="SaveConfig">
+                    
+                
+                
+                
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input type="checkbox" @bind-value="cheatIntegration" @bind-value:event="oninput" @onchange="SaveConfig">
+                    </div>
+                    <span class="input-group-text">0xCheats интеграция</span>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input type="checkbox" @bind-value="cheatTeleport" @bind-value:event="oninput" @onchange="SaveConfig">
+                    </div>
+                    <span class="input-group-text">0xCheats телепорты</span>
+                </div>
+                
+                
+                
+            </div>
+            
+            
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+.vertical-range {
+    writing-mode: bt-lr; /* Поворачивает слайдер на 90 градусов */
+    -webkit-appearance: slider-vertical; /* Для webkit браузеров */
+    width: 80px;
+}
+.range-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.range-label {
+    margin-top: 10px;
+}
+
+
+/* CARD BODY */
+
+.gray-link
+{
+    color: #808080;
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 16px!important;
+}
+
+.menu-wrapper
+{
+    position: fixed;
+    top: -5px;
+    right: 15px;
+}
+.blue-link
+{
+    color: deepskyblue;
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 16px!important;
+}
+.buttons-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Два столбца с равной шириной */
+    gap: 5px; /* Расстояние между столбцами */
+}
+
+.button-with-icon {
+    display: flex;
+    align-items: center;
+}
+
+.button-with-icon span {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.button-with-icon button {
+    flex-grow: 1;
+}
