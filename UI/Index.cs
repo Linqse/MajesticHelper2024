@@ -1,4 +1,4 @@
-﻿using System.Reactive.Subjects;
+using System.Reactive.Subjects;
 using AntDesign;
 
 namespace EyeAuras.Web.Repl.Component;
@@ -30,6 +30,18 @@ public partial class Main
             {
                 UnsafeNative.ActivateWindow(ProcessInfo.ProcessHandle);
             }*/
+    }
+    
+    private bool _lumber;
+
+    public bool Lumber
+    {
+        get => _lumber;
+        set
+        {
+            Log.Info($"Setting Orange to {value}");
+            this.RaiseAndSetIfChanged(ref _lumber, value);
+        }
     }
     
     private bool _orange;

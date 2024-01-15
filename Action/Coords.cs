@@ -1,4 +1,9 @@
-﻿
+
+using System.Numerics;
+using System.Windows.Media;
+using EyeAuras.Graphics.ImageEffects;
+using EyeAuras.Graphics.Scaffolding;
+
 namespace EyeAuras.Web.Repl.Component;
 
 public partial class Main
@@ -7,7 +12,7 @@ public partial class Main
     {
         if (WinExists.ActiveWindow != null)
         {
-            var dwm = WinExists.ActiveWindow.DwmWindowBounds;
+            var dwm = WinExists.ActiveWindow.ClientRect;
 
             
             int centerX = (int)(dwm.Width * relativeX);

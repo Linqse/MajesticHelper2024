@@ -1,4 +1,4 @@
-﻿using System.Reactive.Disposables;
+using System.Reactive.Disposables;
 using EyeAuras.OpenCVAuras.Scaffolding;
 using Polly;
 
@@ -52,7 +52,7 @@ public partial class Main
                     token.ThrowIfCancellationRequested();
                     await Task.Delay(1000);
                     await CheckStatus();
-                    await SendSecret("F17");
+                    if(cheatIntegration) await SendSecret("F17");
                     await Task.Delay(2500);
                     throw new InvalidStateException($"Error for loop oranges");
 
@@ -69,7 +69,7 @@ public partial class Main
         catch (Exception e)
         {
             Log.Error($"Orange routine failed with exception: {e.Message}");
-            ReportError("Fishing failed", e);
+            ReportError("Orange failed", e);
         }
         
         
@@ -82,7 +82,7 @@ public partial class Main
         var oranges = await MLGather.FetchNextResult();
             if (oranges.Success == true)
             {
-                var window = MLGather.ActiveWindow.WindowBounds;
+                var window = MLGather.ActiveWindow.ClientRect;
 
                 foreach (var prediction in oranges.Predictions)
                 {
@@ -149,17 +149,9 @@ public partial class Main
             }, cancellationToken);
     }
 
-    private async Task WaitForE(CancellationToken cancellationToken)
+    /*private async Task WaitForE(CancellationToken cancellationToken)
     {
-        /*var result = await ImagebuttonE.FetchNextResult();
-        if (result.Success == true)
-        {
-            await SendKeyBack("E");
-        }
-        else
-        {
-            throw new InvalidStateException($"Failed to find button E ");
-        }*/
+
         
         
         var button = await Policy
@@ -194,7 +186,7 @@ public partial class Main
                 }
             }, cancellationToken);
         
-    }
+    }*/
     
     
     private async Task TeleportAndSellOrage()

@@ -45,15 +45,15 @@
             </div>
             
             <div class="button-with-icon">
-                <span>️⛏️</span>
-                <ReactiveSection Trackers="@(new() {this.Listen(x => Orange)})">
-                    @if (Orange)
+                <span>️🪓</span>
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Lumber)})">
+                    @if (Lumber)
                     {
-                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Orange = false)">Stop orange</ReactiveButton>
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Lumber = false)">Выключить лесоруб</ReactiveButton>
                     }
                     else
                     {
-                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Orange = true)">Start orange</ReactiveButton>
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Lumber = true)">Включить лесоруб</ReactiveButton>
                     }
                 </ReactiveSection>
             </div>

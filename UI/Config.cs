@@ -1,4 +1,4 @@
-﻿namespace EyeAuras.Web.Repl.Component;
+namespace EyeAuras.Web.Repl.Component;
 
 public class Config
 {

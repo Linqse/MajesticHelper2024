@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace EyeAuras.Web.Repl.Component;

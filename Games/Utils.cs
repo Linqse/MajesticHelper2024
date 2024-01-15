@@ -1,4 +1,5 @@
-﻿using EyeAuras.OpenCVAuras.Scaffolding;
+using EyeAuras.OpenCVAuras.Scaffolding;
+using Polly;
 
 namespace EyeAuras.Web.Repl.Component;
 
@@ -64,6 +65,154 @@ public partial class Main
                     
                 }
             }
+
+            if (result.Text.Contains("сейчас рубит"))
+            {
+                if (Lumber) await SendKeyBack("F24");
+            }
         }
     }
+    
+    private async Task WaitForE(CancellationToken cancellationToken)
+    {
+
+        var button = await Policy
+            .HandleResult<bool?>(x => x.HasValue && !x.Value)
+            .WaitAndRetryForeverAsync(x =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                if (x <= 50)
+                {
+                    return TimeSpan.FromMilliseconds(200);
+                }
+                else
+                {
+                    if(cheatIntegration) SendSecret("F24");
+                    
+                    throw new InvalidStateException($"Failed to find button E {x} attempts");
+                }
+            })
+            .ExecuteAsync(async (token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                var result = await ImagebuttonE.FetchNextResult().TimeoutAfter(TimeSpan.FromMilliseconds(200));
+                if (result is {Success: true})
+                {
+                    await SendKeyBack("E");
+                    return result.Success;
+                }
+                else
+                {
+                    
+                    return result.Success;
+                }
+            }, cancellationToken);
+        
+    }
+    
+    private async Task WaitForRange(CancellationToken cancellationToken)
+    {
+            
+        
+        var button = await Policy
+            .HandleResult<bool?>(x => x.HasValue && !x.Value)
+            .WaitAndRetryForeverAsync(x =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                if (x <= 30)
+                {
+                    return TimeSpan.FromMilliseconds(200);
+                }
+                else
+                {
+                    throw new InvalidStateException($"Failed to find range {x} attempts");
+                }
+            })
+            .ExecuteAsync(async (token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                var result = await ImageRange.FetchNextResult().TimeoutAfter(TimeSpan.FromMilliseconds(200));
+                return result.Success;
+            }, cancellationToken);
+        
+    }
+    
+    private async Task PickUpRange(CancellationToken cancellationToken)
+    {
+            
+        
+        var button = await Policy
+            .HandleResult<bool?>(x => x.HasValue && x.Value)
+            .WaitAndRetryForeverAsync(x =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                if (x <= 100)
+                {
+                    return TimeSpan.FromMilliseconds(200);
+                }
+                else
+                {
+                    throw new InvalidStateException($"To long {x} attempts");
+                }
+            })
+            .ExecuteAsync(async (token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                var result = await ImageRange.FetchNextResult().TimeoutAfter(TimeSpan.FromMilliseconds(200));
+                if (result is {Success: true})
+                {
+                    SendKey("MouseLeft");
+                    return result.Success;
+                }
+                else
+                {
+                    return result.Success;
+                }
+            }, cancellationToken);
+        
+    }
+
+
+    private async Task PickUpML(CancellationToken cancellationToken)
+    {
+       
+        var button = await Policy
+                .HandleResult<bool?>(x => x.HasValue && x.Value)
+                .WaitAndRetryForeverAsync(x =>
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    if (x <= 3)
+                    {
+                        return TimeSpan.FromMilliseconds(500);
+                    }
+                    else
+                    {
+                        throw new InvalidStateException($"To long {x} attempts");
+                    }
+                })
+                .ExecuteAsync(async (token) =>
+                {
+                    token.ThrowIfCancellationRequested();
+                    var result = await MLGather.FetchNextResult();
+                    if (result.Success == true)
+                    {
+                        var window = MLGather.ActiveWindow.WindowRect;
+                        
+                        foreach (var prediction in result.Predictions)
+                        {
+                            var centerPoint = ConvertToOriginalCoordinates(prediction.Rectangle, window);
+
+                            await SendKey("MouseLeft", centerPoint);
+                            await Task.Delay(_config.CastSpeed * 50 + 200);
+                        }
+                        
+                        return result.Success;
+                    }
+                    
+                    return result.Success; 
+                    
+                }, cancellationToken);
+        
+    }
+    
 }

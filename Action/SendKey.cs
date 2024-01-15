@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using EyeAuras.Roxy.Shared.Actions.SendInput;
 using PoeShared.UI;
 using System.Collections.Generic;
@@ -66,7 +66,7 @@ public partial class Main
     }
     
     
-    private async Task SendKey(string key, string inputEventType = null)
+    private async Task SendKey(string key, Point point = default, string inputEventType = null)
     {
         try
         {
@@ -91,6 +91,7 @@ public partial class Main
 
             await SendInputController.Send(DefaultSendInputArgs with
             {
+                MouseLocation = point,
                 Window = activeWindow,
                 Gesture = hotkey,
                 InputEventType = eventType
@@ -101,6 +102,8 @@ public partial class Main
             Log.Error("Error : SendKey");
         }
     }
+    
+    
     
     
     private async Task SendKeyBack(string key)

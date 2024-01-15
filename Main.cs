@@ -12,18 +12,21 @@ public partial class Main : WebUIComponent {
         IAuraTreeScriptingApi treeApi){
         ConfigPath = Path.Combine(appArguments.AppDataDirectory, "EyeSquad", $"Majestic-{treeApi.Aura.Id}.cfg");
         activeOrangeAnchors = new SerialDisposable().AddTo(Anchors);
+        activeLumberAnchors = new SerialDisposable().AddTo(Anchors);
     }
     private static string ConfigPath { get; set; } 
     private Config _config = new Config();
     private IMLSearchTrigger MLGather => AuraTree.FindAuraByPath(@".\ML\Gather").Triggers.Items.OfType<IMLSearchTrigger>().First();
     private IMLSearchTrigger MLFish => AuraTree.FindAuraByPath(@".\ML\Fish").Triggers.Items.OfType<IMLSearchTrigger>().First();
     private IMLSearchTrigger MLCaptcha => AuraTree.FindAuraByPath(@".\ML\Captcha").Triggers.Items.OfType<IMLSearchTrigger>().First();
+    private IMLSearchTrigger MLLumber => AuraTree.FindAuraByPath(@".\ML\Lumber").Triggers.Items.OfType<IMLSearchTrigger>().First();
     
     private IImageSearchTrigger ImagebuttonE => AuraTree.FindAuraByPath(@".\Images\E").Triggers.Items.OfType<IImageSearchTrigger>().First();
     private IImageSearchTrigger ImageLkm => AuraTree.FindAuraByPath(@".\Images\Helper").Triggers.Items.OfType<IImageSearchTrigger>().ElementAt(0);
     private IImageSearchTrigger ImageSuccess => AuraTree.FindAuraByPath(@".\Images\Helper").Triggers.Items.OfType<IImageSearchTrigger>().ElementAt(1);
     private IImageSearchTrigger ImageError => AuraTree.FindAuraByPath(@".\Images\Helper").Triggers.Items.OfType<IImageSearchTrigger>().ElementAt(2);
     private IImageSearchTrigger ImageWarn => AuraTree.FindAuraByPath(@".\Images\Helper").Triggers.Items.OfType<IImageSearchTrigger>().ElementAt(3);
+    private IImageSearchTrigger ImageRange => AuraTree.FindAuraByPath(@".\Images\Range").Triggers.Items.OfType<IImageSearchTrigger>().First();
     
     private ITextSearchTrigger TextSearch =>  AuraTree.FindAuraByPath(@".\Images\TextSearch").Triggers.Items.OfType<ITextSearchTrigger>().First();
     
@@ -39,6 +42,13 @@ public partial class Main : WebUIComponent {
             .ObserveOn(Scheduler.Default)
             .SubscribeAsync(_ => StartOrange())
             .AddTo(Anchors);
+            
+            
+            this.WhenAnyValue(x => x.Lumber)
+                .Where(x => x)
+                .ObserveOn(Scheduler.Default)
+                .SubscribeAsync(_ => StartLumber())
+                .AddTo(Anchors);
 
             LoadConfig();
     }
