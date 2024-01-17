@@ -197,15 +197,18 @@ public partial class Main
                     if (result.Success == true)
                     {
                         var window = MLGather.ActiveWindow.WindowRect;
-                        
+                        var sw = new Stopwatch();
+                        sw.Start();
                         foreach (var prediction in result.Predictions)
                         {
                             var centerPoint = ConvertToOriginalCoordinates(prediction.Rectangle, window);
-
-                            await SendKey("MouseLeft", centerPoint);
+                            
+                            await SendBackMouse(centerPoint with{ Y = centerPoint.Y - DifY});
                             await Task.Delay(_config.CastSpeed * 50 + 200);
+                            Log.Info($"Stopwatch time : {sw.ElapsedMilliseconds}");
+                            sw.Restart();
                         }
-                        
+                        sw.Stop();
                         return result.Success;
                     }
                     

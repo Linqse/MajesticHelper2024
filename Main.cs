@@ -13,7 +13,10 @@ public partial class Main : WebUIComponent {
         ConfigPath = Path.Combine(appArguments.AppDataDirectory, "EyeSquad", $"Majestic-{treeApi.Aura.Id}.cfg");
         activeOrangeAnchors = new SerialDisposable().AddTo(Anchors);
         activeLumberAnchors = new SerialDisposable().AddTo(Anchors);
+        activeMinerAnchors = new SerialDisposable().AddTo(Anchors);
+        activeCareerAnchors = new SerialDisposable().AddTo(Anchors);
     }
+    private int DifY { get; set; }
     private static string ConfigPath { get; set; } 
     private Config _config = new Config();
     private IMLSearchTrigger MLGather => AuraTree.FindAuraByPath(@".\ML\Gather").Triggers.Items.OfType<IMLSearchTrigger>().First();
@@ -48,6 +51,12 @@ public partial class Main : WebUIComponent {
                 .Where(x => x)
                 .ObserveOn(Scheduler.Default)
                 .SubscribeAsync(_ => StartLumber())
+                .AddTo(Anchors);
+            
+            this.WhenAnyValue(x => x.Miner)
+                .Where(x => x)
+                .ObserveOn(Scheduler.Default)
+                .SubscribeAsync(_ => StartMiner())
                 .AddTo(Anchors);
 
             LoadConfig();

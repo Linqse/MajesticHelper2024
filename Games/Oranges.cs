@@ -24,6 +24,7 @@ public partial class Main
                 .Subscribe(() => cancellationTokenSource.Cancel())
                 .AddTo(orangeAnchors);
 
+            DifY = WinExists.ActiveWindow.DwmFrameBounds.Height - WinExists.ActiveWindow.ClientRect.Height;
             
             ReportNotification("Starting oranges");
         

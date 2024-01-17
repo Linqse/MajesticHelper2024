@@ -34,25 +34,49 @@ public partial class Main
     
     private bool _lumber;
 
-    public bool Lumber
+    private bool Lumber
     {
         get => _lumber;
         set
         {
-            Log.Info($"Setting Orange to {value}");
+            Log.Info($"Setting Lumber to {value}");
             this.RaiseAndSetIfChanged(ref _lumber, value);
         }
     }
     
     private bool _orange;
 
-    public bool Orange
+    private bool Orange
     {
         get => _orange;
         set
         {
             Log.Info($"Setting Orange to {value}");
             this.RaiseAndSetIfChanged(ref _orange, value);
+        }
+    }
+    
+    private bool _miner;
+
+    private bool Miner
+    {
+        get => _miner;
+        set
+        {
+            Log.Info($"Setting Miner to {value}");
+            this.RaiseAndSetIfChanged(ref _miner, value);
+        }
+    }
+
+    private bool _career;
+    
+    private bool Career
+    {
+        get => _career;
+        set
+        {
+            Log.Info($"Setting Miner to {value}");
+            this.RaiseAndSetIfChanged(ref _career, value);
         }
     }
     

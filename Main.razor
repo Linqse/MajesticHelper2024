@@ -58,6 +58,66 @@
                 </ReactiveSection>
             </div>
         </div>
+        <div class="buttons-grid-container">
+            <div class="button-with-icon">
+                <span>⚒️</span>
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Miner)})">
+                    @if (Miner)
+                    {
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Miner = false)">Выключить шахту</ReactiveButton>
+                    }
+                    else
+                    {
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Miner = true)">Включить шахту</ReactiveButton>
+                    }
+                </ReactiveSection>
+            </div>
+                    
+            <div class="button-with-icon">
+                <span>⛏️</span>
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Career)})">
+                    @if (Career)
+                    {
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Career = false)">Выключить карьер</ReactiveButton>
+                    }
+                    else
+                    {
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Career = true)">Включить карьер</ReactiveButton>
+                    }
+                </ReactiveSection>
+            </div>
+        </div>
+        <div class="buttons-grid-container">
+            <div class="button-with-icon">
+                <span>🔄</span>
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Miner)})">
+                    @if (Miner)
+                    {
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Miner = false)">Выключить капчу</ReactiveButton>
+                    }
+                    else
+                    {
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Miner = true)">Включить капчу</ReactiveButton>
+                    }
+                </ReactiveSection>
+            </div>
+                            
+            <div class="button-with-icon">
+                <span>🍄</span>
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Career)})">
+                    @if (Career)
+                    {
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Career = false)">Выключить грибы</ReactiveButton>
+                    }
+                    else
+                    {
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Career = true)">Включить грибы</ReactiveButton>
+                    }
+                </ReactiveSection>
+            </div>
+        </div>
+        
+        
 
         
         
