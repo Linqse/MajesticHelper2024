@@ -1,3 +1,6 @@
+using System.Numerics;
+using EyeAuras.Graphics.ImageEffects;
+using EyeAuras.Graphics.Scaffolding;
 using EyeAuras.OpenCVAuras.Scaffolding;
 using Polly;
 
@@ -38,12 +41,10 @@ public partial class Main
     
     private async Task CheckStatus()
     {
-        
-        if (!cheatIntegration) return;
-        
+
         var rectangle = CalculateTargetRectangle(0.4068f,0.9491f, 50, 50);
         AuraTree.Aura["CheckStatus"] = rectangle;
-        
+        await Task.Delay(1000);
         var successTask = ImageSuccess.FetchNextResult();
         var errorTask = ImageError.FetchNextResult();
         var warnTask = ImageWarn.FetchNextResult();
@@ -56,19 +57,11 @@ public partial class Main
         {
             AuraTree.Aura["TextSearch"] = rectangle with { Width = 400 };
             var result = await TextSearch.FetchNextResult();
-            if (result.Text.Contains("свободного места"))
+            
+            if (result.Text.ToLower().Contains("не вмещается"))
             {
-                if (cheatTeleport)
-                {
-                    if (Orange) await TeleportAndSellOrage();
-                    
-                    
-                }
-            }
-
-            if (result.Text.Contains("сейчас рубит"))
-            {
-                if (Lumber) await SendKeyBack("F24");
+                await TelegramMessage($"Превышен лимит веса. \n Бот остановлен : {DateTime.Now}");
+                Fish = false;
             }
         }
     }
@@ -87,8 +80,6 @@ public partial class Main
                 }
                 else
                 {
-                    if(cheatIntegration) SendSecret("F24");
-                    
                     throw new InvalidStateException($"Failed to find button E {x} attempts");
                 }
             })
@@ -172,6 +163,47 @@ public partial class Main
         
     }
 
+    private async Task PickUpFishRange(CancellationToken cancellationToken)
+    {
+
+        bool enabled = false;
+        
+        var button = await Policy
+            .HandleResult<bool?>(x => x.HasValue && x.Value)
+            .WaitAndRetryForeverAsync(x =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                if (x <= 100)
+                {
+                    return TimeSpan.FromMilliseconds(200);
+                }
+                else
+                {
+                    throw new InvalidStateException($"To long {x} attempts");
+                }
+            })
+            .ExecuteAsync(async (token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                var result = await ImageRange.FetchNextResult().TimeoutAfter(TimeSpan.FromMilliseconds(200));
+                if (result is {Success: true})
+                {
+                    if (!enabled)
+                    {
+                        await SendKey("MouseLeft", inputEventType: "KeyDown");
+                        enabled = true;
+                    }
+                    
+                    return result.Success;
+                }
+                else
+                {
+                    await SendKey("MouseLeft", inputEventType: "KeyUp");
+                    return result.Success;
+                }
+            }, cancellationToken);
+        
+    }
 
     private async Task PickUpML(CancellationToken cancellationToken)
     {
@@ -217,5 +249,49 @@ public partial class Main
                 }, cancellationToken);
         
     }
+    
+    private async Task PickUpCaptcha(CancellationToken cancellationToken)
+    {
+        Stopwatch stopwatch = new Stopwatch();
+        var button = await Policy
+            .HandleResult<bool?>(x => x.HasValue)
+            .WaitAndRetryForeverAsync(_ =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                
+                if (stopwatch.IsRunning && stopwatch.ElapsedMilliseconds >= 1000)
+                {
+                    throw new TimeoutException("Нет каптчи на протяжении 1 секунд");
+                }
+
+                return TimeSpan.FromMilliseconds(200);
+            })
+            .ExecuteAsync(async (token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                var result = await MLCaptcha.FetchNextResult();
+                if (result.Success == true)
+                {
+                    await SendKeyBack($"{result.Predictions.First().Label.Name.ToUpper()}");
+                    stopwatch.Reset(); 
+                    return result.Success;
+                }
+
+                if (!stopwatch.IsRunning)
+                {
+                    stopwatch.Start(); 
+                }
+
+                return result.Success;
+
+            }, cancellationToken);
+    }
+
+
+    
+    
+    
+    
+    
     
 }

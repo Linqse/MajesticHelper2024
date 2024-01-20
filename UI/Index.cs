@@ -26,10 +26,10 @@ public partial class Main
     private void OverClose()
     {
         OverlayKey.TriggerValue = false;
-        /*if (ProcessInfo.ProcessHandle != IntPtr.Zero)
-            {
-                UnsafeNative.ActivateWindow(ProcessInfo.ProcessHandle);
-            }*/
+        if (WinExists.ActiveWindow.Handle != IntPtr.Zero)
+        {
+            UnsafeNative.ActivateWindow(WinExists.ActiveWindow.Handle);
+        }
     }
     
     private bool _lumber;
@@ -75,8 +75,44 @@ public partial class Main
         get => _career;
         set
         {
-            Log.Info($"Setting Miner to {value}");
+            Log.Info($"Setting Career to {value}");
             this.RaiseAndSetIfChanged(ref _career, value);
+        }
+    }
+
+    private bool _shrooms;
+    
+    private bool Shrooms
+    {
+        get => _shrooms;
+        set
+        {
+            Log.Info($"Setting Shroom to {value}");
+            this.RaiseAndSetIfChanged(ref _shrooms, value);
+        }
+    }
+
+    private bool _captcha;
+    
+    private bool Captcha
+    {
+        get => _captcha;
+        set
+        {
+            Log.Info($"Setting Captcha to {value}");
+            this.RaiseAndSetIfChanged(ref _captcha, value);
+        }
+    }
+
+    private bool _fish;
+    
+    private bool Fish
+    {
+        get => _fish;
+        set
+        {
+            Log.Info($"Setting Fish to {value}");
+            this.RaiseAndSetIfChanged(ref _fish, value);
         }
     }
     

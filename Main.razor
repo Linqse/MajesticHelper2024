@@ -90,32 +90,61 @@
         <div class="buttons-grid-container">
             <div class="button-with-icon">
                 <span>🔄</span>
-                <ReactiveSection Trackers="@(new() {this.Listen(x => Miner)})">
-                    @if (Miner)
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Captcha)})">
+                    @if (Captcha)
                     {
-                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Miner = false)">Выключить капчу</ReactiveButton>
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Captcha = false)">Выключить капчу</ReactiveButton>
                     }
                     else
                     {
-                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Miner = true)">Включить капчу</ReactiveButton>
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Captcha = true)">Включить капчу</ReactiveButton>
                     }
                 </ReactiveSection>
             </div>
                             
             <div class="button-with-icon">
                 <span>🍄</span>
-                <ReactiveSection Trackers="@(new() {this.Listen(x => Career)})">
-                    @if (Career)
+                <ReactiveSection Trackers="@(new() {this.Listen(x => Shrooms)})">
+                    @if (Shrooms)
                     {
-                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Career = false)">Выключить грибы</ReactiveButton>
+                        <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Shrooms = false)">Выключить грибы</ReactiveButton>
                     }
                     else
                     {
-                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Career = true)">Включить грибы</ReactiveButton>
+                        <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Shrooms = true)">Включить грибы</ReactiveButton>
                     }
                 </ReactiveSection>
             </div>
         </div>
+        <div class="buttons-grid-container">
+                    <div class="button-with-icon">
+                        <span>🔄</span>
+                        <ReactiveSection Trackers="@(new() {this.Listen(x => Captcha)})">
+                            @if (Captcha)
+                            {
+                                <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Captcha = false)">Выключить капчу</ReactiveButton>
+                            }
+                            else
+                            {
+                                <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Captcha = true)">Включить капчу</ReactiveButton>
+                            }
+                        </ReactiveSection>
+                    </div>
+                                    
+                    <div class="button-with-icon">
+                        <span>🐟</span>
+                        <ReactiveSection Trackers="@(new() {this.Listen(x => Fish)})">
+                            @if (Fish)
+                            {
+                                <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Fish = false)">Выключить рыбалку</ReactiveButton>
+                            }
+                            else
+                            {
+                                <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Fish = true)">Включить рыбалку</ReactiveButton>
+                            }
+                        </ReactiveSection>
+                    </div>
+                </div>
         
         
 
@@ -157,10 +186,10 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">Уведомления телеграм</span>
                     <div class="input-group-text">
-                        <input type="checkbox" @bind-value="_config.TelegramAlert" @bind-value:event="oninput" @onchange="SaveConfig">
+                        <input type="checkbox" @bind="_config.TelegramAlert" @bind:event="oninput" @onchange="SaveConfig">    
                     </div>
                     <input type="text" class="form-control" placeholder="@@username" @bind-value="_config.TelegramUsername" @bind-value:event="oninput" @onchange="SaveConfig">
-                </div> 
+                </div>  
                 
                 <label for="repairSelector">Скорость кратная 50 : @_config.CastSpeed</label>
                 <input id="repairSelector" type="range" class="form-range mx-2" min="0" max="10" @bind-value="_config.CastSpeed" @bind-value:event="oninput" @onchange="SaveConfig">

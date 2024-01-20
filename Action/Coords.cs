@@ -29,6 +29,24 @@ public partial class Main
     }
     
     
+    private async Task<Point> ConverterImage(RectangleF rect, Rectangle window)
+    {
+
+        var targetSize = new Size(window.Width, window.Height);
+        var originalSize = new Size(640, 640);
+        var vec = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+        var method = ResizeImageMethod.Letterbox;
+        var transformation = method.CalculateTransformation(targetSize, originalSize);
+
+        Matrix3x2.Invert(transformation, out var invertedMatrix);
+        
+        Vector2 transformedPoint = Vector2.Transform(vec, invertedMatrix);
+
+        
+        return new Point((int)transformedPoint.X, (int)transformedPoint.Y);
+    }
+    
+    
     private Point ConvertToOriginalCoordinates(RectangleF predictionRectangle, Rectangle windowBounds)
     {
         const int letterBoxedImageSize = 640;
