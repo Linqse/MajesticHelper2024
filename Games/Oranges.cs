@@ -25,6 +25,7 @@ public partial class Main
                 .AddTo(orangeAnchors);
 
             DifY = WinExists.ActiveWindow.DwmFrameBounds.Height - WinExists.ActiveWindow.ClientRect.Height;
+            MLGather.Refresh();
             
             ReportNotification("Starting oranges");
             

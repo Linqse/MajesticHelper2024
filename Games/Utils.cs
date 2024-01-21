@@ -89,7 +89,7 @@ public partial class Main
                 var result = await ImagebuttonE.FetchNextResult().TimeoutAfter(TimeSpan.FromMilliseconds(200));
                 if (result is {Success: true})
                 {
-                    await SendKeyBack("E");
+                    SendKeyBack("E");
                     return result.Success;
                 }
                 else
@@ -272,7 +272,7 @@ public partial class Main
                 var result = await MLCaptcha.FetchNextResult();
                 if (result.Success == true)
                 {
-                    await SendKeyBack($"{result.Predictions.First().Label.Name.ToUpper()}");
+                    SendKeyBack($"{result.Predictions.First().Label.Name.ToUpper()}");
                     stopwatch.Reset(); 
                     return result.Success;
                 }

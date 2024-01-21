@@ -117,20 +117,8 @@
             </div>
         </div>
         <div class="buttons-grid-container">
-                    <div class="button-with-icon">
-                        <span>🔄</span>
-                        <ReactiveSection Trackers="@(new() {this.Listen(x => Captcha)})">
-                            @if (Captcha)
-                            {
-                                <ReactiveButton Class="btn btn-danger w-100" Command="@(async () => Captcha = false)">Выключить капчу</ReactiveButton>
-                            }
-                            else
-                            {
-                                <ReactiveButton Class="btn btn-secondary w-100" Command="@(async () => Captcha = true)">Включить капчу</ReactiveButton>
-                            }
-                        </ReactiveSection>
-                    </div>
-                                    
+                    
+                         
                     <div class="button-with-icon">
                         <span>🐟</span>
                         <ReactiveSection Trackers="@(new() {this.Listen(x => Fish)})">

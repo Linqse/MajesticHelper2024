@@ -26,7 +26,7 @@ public partial class Main
 
             
             DifY = WinExists.ActiveWindow.DwmFrameBounds.Height - WinExists.ActiveWindow.ClientRect.Height;
-            
+            MLCaptcha.Refresh();
             AuraTree.Aura["ImageE"] = CalculateTargetRectangle(0.0604f, 0.0389f, 50, 50);
             AuraTree.Aura["ImageCaptcha"] = CalculateTargetRectangle(0.5021f, 0.9306f, 160, 160);
             

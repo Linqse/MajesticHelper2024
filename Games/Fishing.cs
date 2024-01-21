@@ -32,7 +32,8 @@ public partial class Main
             AuraTree.Aura["ImageRange"] = CalculateTargetRectangle(0.9349f, 0.9287f, 200, 50);
             
             DifY = WinExists.ActiveWindow.DwmFrameBounds.Height - WinExists.ActiveWindow.ClientRect.Height;
-
+            MLFish.Refresh();
+            
             await StartFishPreset();
             
             await Policy
@@ -49,7 +50,7 @@ public partial class Main
                 .WaitAndRetryForeverAsync((attempt) => TimeSpan.FromMilliseconds(200))
                 .ExecuteAsync(async token =>
                 {
-                    await SendKeyBack("E");
+                    SendKeyBack("E");
                     token.ThrowIfCancellationRequested();
                     await WaitForAD(token);
                     token.ThrowIfCancellationRequested();
@@ -172,9 +173,9 @@ public partial class Main
     
     private async Task StartFishPreset()
     {
-        await SendKeyBack("I");
+        SendKeyBack("I");
         await Task.Delay(2000);
-        await SendKeyBack("I");
+        SendKeyBack("I");
         await Task.Delay(500);
     }
 }

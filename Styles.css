@@ -55,3 +55,8 @@
 .button-with-icon button {
     flex-grow: 1;
 }
+
+body, html {
+    
+    user-select: none;
+}

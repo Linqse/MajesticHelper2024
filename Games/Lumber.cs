@@ -33,6 +33,7 @@ public partial class Main
             AuraTree.Aura["ImageRange"] = CalculateTargetRectangle(0.9349f, 0.9287f, 200, 50);
             
             DifY = WinExists.ActiveWindow.DwmFrameBounds.Height - WinExists.ActiveWindow.ClientRect.Height;
+            MLLumber.Refresh();
             
             await Policy
                 .Handle<Exception>(ex =>

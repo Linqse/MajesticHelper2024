@@ -70,7 +70,7 @@ public partial class Main
     
     
     
-    private async Task SendKeyBack(string key)
+    private void SendKeyBack(string key)
     {
         try
         {
@@ -83,7 +83,7 @@ public partial class Main
 
             var hotkey = HotkeyConverter.ConvertFromString(key);
 
-            await SendInputController.Send(DefaultSendInputArgsBackground with
+            SendInputController.Send(DefaultSendInputArgsBackground with
             {
                 Window = activeWindow,
                 Gesture = hotkey
