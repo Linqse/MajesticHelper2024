@@ -91,7 +91,7 @@ public partial class Main
                 return x switch
                 {
                     <= 15 => TimeSpan.FromMilliseconds(2000),
-                    <= 25 => TimeSpan.FromMilliseconds(1000),
+                    <= 35 => TimeSpan.FromMilliseconds(1000),
                     <= 100 => TimeSpan.FromMilliseconds(200),
                     _ => throw new InvalidStateException($"Failed to find fish after {x} attempts")
                 };
