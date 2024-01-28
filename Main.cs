@@ -3,6 +3,7 @@
 using System.Reactive.Disposables;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using EyeAuras.OpenCVAuras.Scaffolding;
 using Newtonsoft.Json;
 using PoeShared.Modularity;
 
@@ -45,57 +46,50 @@ public partial class Main : WebUIComponent {
     
     protected override async Task HandleAfterFirstRender()
     {
-        
-            this.WhenAnyValue(x => x.Orange)
-                .Where(x => x)
-                .ObserveOn(Scheduler.Default)
-                .SubscribeAsync(_ => StartOrange())
-                .AddTo(Anchors);
-            
-            
-            this.WhenAnyValue(x => x.Lumber)
-                .Where(x => x)
-                .ObserveOn(Scheduler.Default)
-                .SubscribeAsync(_ => StartLumber())
-                .AddTo(Anchors);
-            
-            this.WhenAnyValue(x => x.Miner)
-                .Where(x => x)
-                .ObserveOn(Scheduler.Default)
-                .SubscribeAsync(_ => StartMiner())
-                .AddTo(Anchors);
-            
-            this.WhenAnyValue(x => x.Career)
-                .Where(x => x)
-                .ObserveOn(Scheduler.Default)
-                .SubscribeAsync(_ => StartCareer())
-                .AddTo(Anchors);
-            
-            this.WhenAnyValue(x => x.Fish)
-                .Where(x => x)
-                .ObserveOn(Scheduler.Default)
-                .SubscribeAsync(_ => StartFish())
-                .AddTo(Anchors);
-            this.WhenAnyValue(x => x.Captcha)
-                .Where(x => x)
-                .ObserveOn(Scheduler.Default)
-                .SubscribeAsync(_ => StartCaptcha())
-                .AddTo(Anchors);
-            
-            this.WhenAnyValue(x => x.Shrooms)
-                .Where(x => x)
-                .ObserveOn(Scheduler.Default)
-                .SubscribeAsync(_ => StartShrooms())
-                .AddTo(Anchors);
+        this.WhenAnyValue(x => x.Orange)
+            .Where(x => x)
+            .SubscribeAsync(() => StartOrange())
+            .AddTo(Anchors);
 
-            
+        this.WhenAnyValue(x => x.Lumber)
+            .Where(x => x)
+            .SubscribeAsync(() => StartLumber())
+            .AddTo(Anchors);
 
-            LoadConfig();
+        this.WhenAnyValue(x => x.Miner)
+            .Where(x => x)
+            .SubscribeAsync(() => StartMiner())
+            .AddTo(Anchors);
+
+        this.WhenAnyValue(x => x.Career)
+            .Where(x => x)
+            .SubscribeAsync(() => StartCareer())
+            .AddTo(Anchors);
+
+        this.WhenAnyValue(x => x.Fish)
+            .Where(x => x)
+            .SubscribeAsync(() => StartFish())
+            .AddTo(Anchors);
+
+        this.WhenAnyValue(x => x.Captcha)
+            .Where(x => x)
+            .SubscribeAsync(() => StartCaptcha())
+            .AddTo(Anchors);
+
+        this.WhenAnyValue(x => x.Shrooms)
+            .Where(x => x)
+            .SubscribeAsync(() => StartShrooms())
+            .AddTo(Anchors);
+
+        LoadConfig();
     }
+
+
 
 
     private async Task SaveScreen(Image<Bgr,byte> img)
     {
+        
         string directoryPath = @"J:\FishScreens";
         if (!Directory.Exists(directoryPath))
         {
